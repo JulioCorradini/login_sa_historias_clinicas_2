@@ -9,10 +9,10 @@ const PORT = 3000;
 
 // Configuración de la base de datos MySQL
 const db = mysql.createConnection({
-  host: 'MySQL 8.1 Serve', // Base de datos: julio_loign_1 / Nombre de usuario: julio_login_1 / Correo electrónico: julcorradi@gmail.com
-  user: 'julio_login_1@localhost',
-  password: 'juliologin',
-  database: 'julio_login_1'
+  host: 'localhost', // Estas son las credenciales de una Base de Datos de prueba.
+  user: 'root',
+  password: '',
+  database: 'logindatabase'
 });
 
 // Middleware
