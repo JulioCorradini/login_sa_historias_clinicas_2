@@ -17,6 +17,8 @@ const db = mysql.createConnection({
   database: 'logindatabase'*/
 
   // Estas son las credenciales de una Base de Datos de prueba en el servidor de freesqldatabase.com
+  //App deployada para test en el servidor gratuito de render.com. Se accede mediante el link https://login-sa-historias-clinicas-2.onrender.com
+  //La base de datos de freesqldatabase.com se puede visualizar accediendo al link https://www.phpmyadmin.co/ con las correspondientes credenciales.
   host: 'sql10.freesqldatabase.com',
   user: 'sql10643279',
   password: 'WM5jknmXy9',
