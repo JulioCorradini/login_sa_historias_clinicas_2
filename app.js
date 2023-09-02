@@ -143,6 +143,7 @@ app.get('/app', (req, res) => {
     // Si se proporciona un correo electrónico válido en la URL, puedes usarlo en tu aplicación
     // Por ejemplo, aquí puedes prellenar el campo de nombre de usuario en tu formulario
     res.sendFile(__dirname + '/index.html'); // Esto es solo un ejemplo, puedes adaptarlo según tus necesidades
+    console.log(email);
   }
 });
 
