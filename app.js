@@ -11,16 +11,16 @@ const PORT = 3000;
 // Configuración de la base de datos MySQL
 const db = mysql.createConnection({
   // Estas son las credenciales de una Base de Datos de prueba en mi localhost
-  /*host: 'localhost',
+  host: 'localhost',
   user: 'root',
   password: '',
-  database: 'logindatabase'*/
+  database: 'logindatabase'
 
   // Estas son las credenciales de una Base de Datos de prueba en el servidor de railway.app
-  host: 'containers-us-west-197.railway.app',
+  /*host: 'containers-us-west-77.railway.app',
   user: 'root',
-  password: 'O3MrlUkzSAjJD62R1qR4',
-  database: 'railway'
+  password: 'qHoq7pR88AzID4hghBqX',
+  database: 'railway'*/
 });
 
 // Middleware
