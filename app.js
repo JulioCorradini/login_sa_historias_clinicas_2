@@ -11,16 +11,19 @@ const PORT = 3000;
 // Configuración de la base de datos MySQL
 const db = mysql.createConnection({
   // Estas son las credenciales de una Base de Datos de prueba en mi localhost
-  host: 'localhost',
+  /*host: 'localhost',
   user: 'root',
   password: '',
-  database: 'logindatabase'
+  database: 'logindatabase'*/
 
-  // Estas son las credenciales de una Base de Datos de prueba en el servidor de railway.app
-  /*host: 'containers-us-west-77.railway.app',
-  user: 'root',
-  password: 'qHoq7pR88AzID4hghBqX',
-  database: 'railway'*/
+
+  // Estas son las credenciales de una Base de Datos de prueba en el servidor de freesqldatabase.com
+  //App deployada para test en el servidor gratuito de render.com. Se accede mediante el link https://login-sa-historias-clinicas-2.onrender.com
+  //La base de datos de freesqldatabase.com se puede visualizar accediendo al link https://www.phpmyadmin.co/ con las correspondientes credenciales.
+  host: 'sql10.freesqldatabase.com',
+  user: 'sql10643279',
+  password: 'WM5jknmXy9',
+  database: 'sql10643279'
 });
 
 // Middleware
