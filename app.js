@@ -8,6 +8,7 @@ const mysql = require('mysql2');
 const app = express();
 const PORT = 3000;
 
+
 // Configuración de la base de datos MySQL
 const db = mysql.createConnection({
   // Estas son las credenciales de una Base de Datos de prueba en mi localhost
@@ -51,10 +52,10 @@ app.post('/register', async (req, res) => {
     console.log("Los campos no pueden estar en blanco");// Hay que arreglar esto para que devuelva el mensaje por pantalla.
   };
 
-  // Validación: Verificar que la contraseña tenga entre 8 y 10 caracteres, al menos una minúscula, al menos una mayúscula, al menos un carácter especial y al menos un número.
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,10}$/;
+  // Validación: Verificar que la contraseña tenga al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un carácter especial y al menos un número.
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$/;
   if (!password.match(passwordRegex)) {
-    console.log("La contraseña debe tener entre 8 y 10 caracteres, al menos una minúscula, al menos una mayúscula, al menos un dígito y al menos un caracter especial"); // Hay que arreglar esto para que devuelva el mensaje por pantalla.
+    console.log("La contraseña debe tener al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un dígito y al menos un caracter especial"); // Hay que arreglar esto para que devuelva el mensaje por pantalla.
     res.redirect('/');
   } else {
     // Verificar si el nombre de usuario ya existe en la base de datos
