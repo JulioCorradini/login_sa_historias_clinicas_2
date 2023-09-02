@@ -130,6 +130,23 @@ app.get('/dashboard', (req, res) => {
   }
 });
 
+// Ruta para la aplicación personalizada
+app.get('/app', (req, res) => {
+  const email = req.query.email; // Obtiene el parámetro "email" de la URL
+
+  // Verifica si se proporciona un correo electrónico en la URL
+  if (!email || email.trim() === '') {
+    // Si no se proporciona un correo electrónico, redirige o maneja el error de alguna manera
+    console.log('No se proporcionó un correo electrónico válido en la URL.');
+    res.redirect('/'); // Puedes redirigir al usuario a la página de inicio de sesión u otra página adecuada
+  } else {
+    // Si se proporciona un correo electrónico válido en la URL, puedes usarlo en tu aplicación
+    // Por ejemplo, aquí puedes prellenar el campo de nombre de usuario en tu formulario
+    res.sendFile(__dirname + '/index.html'); // Esto es solo un ejemplo, puedes adaptarlo según tus necesidades
+  }
+});
+
+
 app.listen(PORT, () => {
   console.log(`Servidor en funcionamiento en el puerto ${PORT}`);
 });
