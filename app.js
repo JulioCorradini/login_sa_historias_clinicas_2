@@ -72,7 +72,7 @@ app.post('/register', async (req, res) => {
           return res.redirect('/');
         }else{
           //Si el nombre de usuario no existe, proceder con el registro.
-          const hashedPassword = bcrypt.hashSync(password, 10); // Se usa "hashSync" en lugar de "hash" para evitar tratar esta parte del código de forma asíncrona. Pero si en un futuro la App tiene mucha concurrencia o por otras razones se requiere que el encriptado se realice de forma asíncrona, habría que sonsiderar usar "hash" de forma asíncrona.
+          const hashedPassword = bcrypt.hashSync(password, 10); // Se usa "hashSync" en lugar de "hash" para evitar tratar esta parte del código de forma asíncrona. Pero si en un futuro la App tiene mucha concurrencia o por otras razones se requiere que el encriptado se realice de forma asíncrona, habría que considerar usar "hash" de forma asíncrona.
           console.log(hashedPassword);
           db.query(
             'INSERT INTO users (username, password) VALUES (?, ?)',
