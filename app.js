@@ -3,6 +3,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
+const nodemailer = require('nodemailer');
 
 
 const app = express();
@@ -25,6 +26,14 @@ const db = mysql.createConnection({
   user: 'sql10643279',
   password: 'WM5jknmXy9',
   database: 'sql10643279'
+});
+
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: 'julcorradi@gmail.com', // Aquí debe ir la dirección oficial del sanatorio
+    pass: 'lslxkjmrhpwgqisv' // Esta es una clave creada específicamente para darle permiso a la aplicación de manejar el mail. LO IDEAL ES QUE ESTA CLAVE NO SE ENCUENTRE HARDCODEADA COMO TEXTO PLANO AQUÍ.
+  }
 });
 
 // Middleware
@@ -82,6 +91,18 @@ app.post('/register', async (req, res) => {
                 console.log(err);
                 res.redirect('/');
               } else {
+                transporter.sendMail({
+                  from: 'julcorradi@gmail.com', // Aquí va el correo oficial del sanatorio
+                  to: 'julcorradi@gmail.com', // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
+                  subject: 'Registro exitoso',
+                  html: `<p>¡Hola! Su registro en nuestra aplicación ha sido exitoso. Visite el siguiente link e ingrese el mail y la contraseña que acaba de crear para ingresar a su cuenta.</p><a href="http://localhost:3000/indexLogin.html">Acceder a mi cuenta</a>` // Aquí se debe enviar el link de la ruta a la página de registro
+                }, (error, info) => {
+                  if (error) {
+                    console.log('Error al enviar el correo electrónico:', error);
+                  } else {
+                    console.log('Correo electrónico enviado:', info.response);
+                  }
+                });
                 res.redirect('/');
               }
             }
@@ -113,7 +134,7 @@ app.post('/login', (req, res) => {
             req.session.user = result[0];
             res.redirect('/dashboard'); // Aquí la acción tiene que ser la de seguir el link que redirige al portal con las historias clínicas.
           } else {
-            res.redirect('/');
+            res.redirect('/indexLogin.html');
           }
         }
       }
