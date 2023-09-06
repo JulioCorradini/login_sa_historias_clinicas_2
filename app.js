@@ -5,27 +5,25 @@ const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
 const nodemailer = require('nodemailer');
 
-
 const app = express();
 const PORT = 3000;
-
 
 // Configuración de la base de datos MySQL
 const db = mysql.createConnection({
   // Estas son las credenciales de una Base de Datos de prueba en mi localhost
-  /*host: 'localhost',
+  host: 'localhost',
   user: 'root',
   password: '',
-  database: 'logindatabase'*/
+  database: 'logindatabase'
 
 
   // Estas son las credenciales de una Base de Datos de prueba en el servidor de freesqldatabase.com
   //App deployada para test en el servidor gratuito de render.com. Se accede mediante el link https://login-sa-historias-clinicas-2.onrender.com
   //La base de datos de freesqldatabase.com se puede visualizar accediendo al link https://www.phpmyadmin.co/ con las correspondientes credenciales.
-  host: 'sql10.freesqldatabase.com',
+  /*host: 'sql10.freesqldatabase.com',
   user: 'sql10643279',
   password: 'WM5jknmXy9',
-  database: 'sql10643279'
+  database: 'sql10643279'*/
 });
 
 const transporter = nodemailer.createTransport({
@@ -55,6 +53,8 @@ app.get('/', (req, res) => {
 // Ruta de registro de usuario
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
+
+  const serverURL = `${req.protocol}://${req.get('host')}`; // Variable que guarda la URL del servidor donde se despliega la aplicación.
 
   // Validación: Verificar que no haya campos en blanco y que cumplan con restricciones
   if (!username || !password || username.trim() === '' || password.trim() === '') {
@@ -95,7 +95,7 @@ app.post('/register', async (req, res) => {
                   from: 'julcorradi@gmail.com', // Aquí va el correo oficial del sanatorio
                   to: 'julcorradi@gmail.com', // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
                   subject: 'Registro exitoso',
-                  html: `<p>¡Hola! Su registro en nuestra aplicación ha sido exitoso. Visite el siguiente link e ingrese el mail y la contraseña que acaba de crear para ingresar a su cuenta.</p><a href="http://localhost:3000/indexLogin.html">Acceder a mi cuenta</a>` // Aquí se debe enviar el link de la ruta a la página de registro
+                  html: `<p>Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente <a href='${serverURL}/indexLogin.html'>link</a>.</p>`//`Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente link ${serverURL}/indexLogin.html` Aquí se debe enviar el link de la ruta a la página de registro
                 }, (error, info) => {
                   if (error) {
                     console.log('Error al enviar el correo electrónico:', error);
@@ -103,7 +103,7 @@ app.post('/register', async (req, res) => {
                     console.log('Correo electrónico enviado:', info.response);
                   }
                 });
-                res.redirect('/');
+                res.redirect('/indexRegistroExitoso.html');
               }
             }
           );
@@ -120,14 +120,14 @@ app.post('/login', (req, res) => {
   // Validación: Verificar que no haya campos en blanco y que cumplan con restricciones
   if (!username || !password || username.trim() === '' || password.trim() === '') {
     console.log('Los campos no pueden estar en blanco');// Hay que arreglar esto para que devuelva el mensaje por pantalla.
-    res.redirect('/');
+    res.redirect('/indexLogin.html');
   } else {
     db.query(
       'SELECT * FROM users WHERE username = ?',
       [username],
       async (err, result) => {
         if (err || result.length === 0) {
-          res.redirect('/');
+          res.redirect('/indexLogin.html');
         } else {
           const isPasswordValid = await bcrypt.compare(password, result[0].password);
           if (isPasswordValid) {
@@ -161,9 +161,8 @@ app.get('/app', (req, res) => {
     console.log('No se proporcionó un correo electrónico válido en la URL.');
     res.redirect('/'); // Puedes redirigir al usuario a la página de inicio de sesión u otra página adecuada
   } else {
-    // Si se proporciona un correo electrónico válido en la URL, puedes usarlo en tu aplicación
-    // Por ejemplo, aquí puedes prellenar el campo de nombre de usuario en tu formulario
-    res.sendFile(__dirname + '/index.html'); // Esto es solo un ejemplo, puedes adaptarlo según tus necesidades
+    // Si se proporciona un correo electrónico válido en la URL se redirige a la ruta
+    res.sendFile(__dirname + '/index.html');
     console.log(email);
   }
 });
