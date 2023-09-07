@@ -14,15 +14,15 @@
       <input type="password" name="password" placeholder="Contraseña" required>
       <button type="submit">Registrarse</button>
       <div id="mensajeDeError">
-        
+       
       </div>
     </form>
   </div>
-
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const username = urlParams.get('email');
     document.getElementById('username').value = username;
   </script>
+  <script src="cliente.js"></script>
 </body>
 </html>
