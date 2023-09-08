@@ -63,10 +63,12 @@ app.post('/register', async (req, res) => {
 
   // Validación: Verificar que la contraseña tenga al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un carácter especial y al menos un número.
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$/;
-  if (!password.match(passwordRegex)) {
+  //if (!password.match(passwordRegex)) {
     //console.log("La contraseña debe tener al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un dígito y al menos un caracter especial"); // Hay que arreglar esto para que devuelva el mensaje por pantalla.
     //res.redirect('/');
-  } else {
+    
+  //} 
+  if (password.match(passwordRegex)) {
     // Verificar si el nombre de usuario ya existe en la base de datos
     db.query(
       'SELECT * FROM users WHERE username = ?',
@@ -171,3 +173,4 @@ app.get('/app', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor en funcionamiento en el puerto ${PORT}`);
 });
+

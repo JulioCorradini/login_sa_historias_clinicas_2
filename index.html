@@ -9,12 +9,12 @@
 <body>
   <div class="container">
     <h1>Regístrese</h1>
-    <form action="/register" method="POST">
+    <form id="miFormulario" action="/register" method="POST">
       <input id="username" type="text" name="username" placeholder="Nombre de usuario" required readonly>
-      <input type="password" name="password" placeholder="Contraseña" required>
-      <button type="submit">Registrarse</button>
+      <input id="password" type="password" name="password" placeholder="Contraseña" required>
+      <button id="button" type="submit">Registrarse</button>
       <div id="mensajeDeError">
-       
+        
       </div>
     </form>
   </div>
