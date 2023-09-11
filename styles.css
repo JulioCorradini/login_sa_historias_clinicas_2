@@ -46,7 +46,12 @@ body {
     background-color: #24bd97;
   }
 
-  #registroExitoso{
-    color:#696666;
+  #registroExitoso, #mensajeDeRegistroExitoso{
+    color:#0e662b;
+    font-family:Arial, Helvetica, sans-serif
+  }
+
+  #error, #mensajeDeError, #textoDeError{
+    color: rgb(168, 5, 5);
     font-family:Arial, Helvetica, sans-serif
   }

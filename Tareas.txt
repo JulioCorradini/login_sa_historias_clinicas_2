@@ -5,3 +5,4 @@
 6- Revisar si la parte de la ruta para la aplicacion personalizada es necesaria.
 7- Revisar si el archivo indexLoginVacio.html es necesario.
 8- Arreglar el estilo del div oculto.
+9- Revisar si es necesaria una validación de "contraseña ya registrada".
