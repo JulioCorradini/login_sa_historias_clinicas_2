@@ -1,6 +1,7 @@
 1- Arreglar a base de datos de freesqldatabase
 2- Encontrar la forma de que el primer link que se envía con la ruta a la página de registro tenga el mail en su URL
 3- Lograr que la direccon y la clave que se usan para enviar los mails con los respectivos links, no aparezcan hardcodeadas como texto plano.
-4- Arreglar el front para que los mensajes de error aparezcan por pantalla al usuario.
 5- Revisar lo del hashsync.
 6- Revisar si la parte de la ruta para la aplicacion personalizada es necesaria.
+7- Revisar si el archivo indexLoginVacio.html es necesario.
+8- Arreglar el estilo del div oculto.

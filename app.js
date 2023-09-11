@@ -58,17 +58,14 @@ app.post('/register', async (req, res) => {
 
   // Validación: Verificar que no haya campos en blanco y que cumplan con restricciones
   if (!username || !password || username.trim() === '' || password.trim() === '') {
-    console.log("Los campos no pueden estar en blanco");// Hay que arreglar esto para que devuelva el mensaje por pantalla.
+    //No hace nada, solo se mantiene la página cargando mostrando el mensaje de error hasta que el usuario presione el botón de "Inténtelo Denuevo".
   };
 
   // Validación: Verificar que la contraseña tenga al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un carácter especial y al menos un número.
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$/;
-  //if (!password.match(passwordRegex)) {
-    //console.log("La contraseña debe tener al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un dígito y al menos un caracter especial"); // Hay que arreglar esto para que devuelva el mensaje por pantalla.
-    //res.redirect('/');
-    
-  //} 
-  if (password.match(passwordRegex)) {
+  if (!password.match(passwordRegex)) {
+    //No hace nada, solo se mantiene la página cargando mostrando el mensaje de error hasta que el usuario presione el botón de "Inténtelo Denuevo".
+  } else {
     // Verificar si el nombre de usuario ya existe en la base de datos
     db.query(
       'SELECT * FROM users WHERE username = ?',
@@ -121,22 +118,21 @@ app.post('/login', (req, res) => {
 
   // Validación: Verificar que no haya campos en blanco y que cumplan con restricciones
   if (!username || !password || username.trim() === '' || password.trim() === '') {
-    console.log('Los campos no pueden estar en blanco');// Hay que arreglar esto para que devuelva el mensaje por pantalla.
-    res.redirect('/indexLogin.html');
+    res.redirect('/indexLoginVacio.html');
   } else {
     db.query(
       'SELECT * FROM users WHERE username = ?',
       [username],
       async (err, result) => {
         if (err || result.length === 0) {
-          res.redirect('/indexLogin.html');
+          res.redirect('/indexLoginError.html');
         } else {
           const isPasswordValid = await bcrypt.compare(password, result[0].password);
           if (isPasswordValid) {
             req.session.user = result[0];
             res.redirect('/dashboard'); // Aquí la acción tiene que ser la de seguir el link que redirige al portal con las historias clínicas.
           } else {
-            res.redirect('/indexLogin.html');
+            res.redirect('/indexLoginError.html');
           }
         }
       }
