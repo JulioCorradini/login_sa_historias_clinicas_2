@@ -4,20 +4,21 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT; // Variable de entorno para determinar el puerto de ejecución.
 
 var destinatario = ''; // Esta variable queda vacía hasta que se aaceda ala ruta '/app' y se le asigne el valor del parámetro 'email' que aparece en la URL personalizada.
 
 // Configuración de la base de datos MySQL
 const db = mysql.createConnection({
-  // Estas son las credenciales de una Base de Datos de prueba en mi localhost
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'logindatabase'
+  // Variables de entorno con las credenciales de una Base de Datos de prueba en mi localhost
+  host: process.env.DB_HOST_LOCAL,
+  user: process.env.DB_USER_LOCAL,
+  password: process.env.DB_PASS_LOCAL,
+  database: process.env.DB_NAME_LOCAL
 
 
   // Estas son las credenciales de una Base de Datos de prueba en el servidor de freesqldatabase.com
@@ -29,12 +30,15 @@ const db = mysql.createConnection({
   database: 'sql10643279'*/
 });
 
+//Variables de entrorno con las credenciales para enviar el mail con "nodemailer".
+const EMAIL_USER = process.env.EMAIL_USER;
+const EMAIL_PASS = process.env.EMAIL_PASS;
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-    // Las siguientes credenciales deberían encontrarse guardadas en variables de entorno y ser accedidas a través de un módulo como dotenv.
-    user: 'julcorradi@gmail.com', // Aquí debe ir la dirección oficial del sanatorio
-    pass: 'lslxkjmrhpwgqisv' // Esta es una clave creada específicamente para darle permiso a la aplicación de manejar el mail.
+    // Las siguientes credenciales se encuentran guardadas en variables de entorno en el archivo ".env" y son accedidas a través de la librería "dotenv".
+    user: EMAIL_USER,// Aquí debe ir la dirección oficial del sanatorio
+    pass: EMAIL_PASS// Esta es una clave creada específicamente para darle permiso a la aplicación de manejar el mail.
   }
 });
 
@@ -94,7 +98,7 @@ app.post('/register', async (req, res) => {
                 res.redirect('/');
               } else {
                 transporter.sendMail({
-                  from: 'julcorradi@gmail.com', // Aquí va el correo oficial del sanatorio
+                  from: EMAIL_USER,//'julcorradi@gmail.com', // Aquí va el correo oficial del sanatorio
                   to: destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
                   subject: 'Registro exitoso',
                   html: `<p>Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente <a href='${serverURL}/indexLogin.html'>link</a>.</p>`//`Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente link ${serverURL}/indexLogin.html` Aquí se debe enviar el link de la ruta a la página de registro
