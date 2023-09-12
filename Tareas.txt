@@ -2,7 +2,6 @@
 2- Encontrar la forma de que el primer link que se envía con la ruta a la página de registro tenga el mail en su URL
 3- Lograr que la direccon y la clave que se usan para enviar los mails con los respectivos links, no aparezcan hardcodeadas como texto plano.
 5- Revisar lo del hashsync.
-6- Revisar si la parte de la ruta para la aplicacion personalizada es necesaria.
-7- Revisar si el archivo indexLoginVacio.html es necesario.
-8- Arreglar el estilo del div oculto.
-9- Revisar si es necesaria una validación de "contraseña ya registrada".
+6- Revisar si el archivo indexLoginVacio.html es necesario.
+7- Revisar si es necesaria una validación de "contraseña ya registrada".
+8- Revisar si es necesario un sistema de recuperación de contraseña.

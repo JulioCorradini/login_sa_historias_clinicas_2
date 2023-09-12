@@ -5,8 +5,11 @@ const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
 const nodemailer = require('nodemailer');
 
+
 const app = express();
 const PORT = 3000;
+
+var destinatario = ''; // Esta variable queda vacía hasta que se aaceda ala ruta '/app' y se le asigne el valor del parámetro 'email' que aparece en la URL personalizada.
 
 // Configuración de la base de datos MySQL
 const db = mysql.createConnection({
@@ -29,8 +32,9 @@ const db = mysql.createConnection({
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
+    // Las siguientes credenciales deberían encontrarse guardadas en variables de entorno y ser accedidas a través de un módulo como dotenv.
     user: 'julcorradi@gmail.com', // Aquí debe ir la dirección oficial del sanatorio
-    pass: 'lslxkjmrhpwgqisv' // Esta es una clave creada específicamente para darle permiso a la aplicación de manejar el mail. LO IDEAL ES QUE ESTA CLAVE NO SE ENCUENTRE HARDCODEADA COMO TEXTO PLANO AQUÍ.
+    pass: 'lslxkjmrhpwgqisv' // Esta es una clave creada específicamente para darle permiso a la aplicación de manejar el mail.
   }
 });
 
@@ -76,8 +80,7 @@ app.post('/register', async (req, res) => {
           return res.redirect('/');
         }
         if (result.length > 0) {
-          console.log("El nombre de usuario ya está registrado.");
-          return res.redirect('/');
+          return res.redirect('/indexRegistroError.html');
         }else{
           //Si el nombre de usuario no existe, proceder con el registro.
           const hashedPassword = bcrypt.hashSync(password, 10); // Se usa "hashSync" en lugar de "hash" para evitar tratar esta parte del código de forma asíncrona. Pero si en un futuro la App tiene mucha concurrencia o por otras razones se requiere que el encriptado se realice de forma asíncrona, habría que considerar usar "hash" de forma asíncrona.
@@ -92,7 +95,7 @@ app.post('/register', async (req, res) => {
               } else {
                 transporter.sendMail({
                   from: 'julcorradi@gmail.com', // Aquí va el correo oficial del sanatorio
-                  to: 'julcorradi@gmail.com', // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
+                  to: destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
                   subject: 'Registro exitoso',
                   html: `<p>Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente <a href='${serverURL}/indexLogin.html'>link</a>.</p>`//`Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente link ${serverURL}/indexLogin.html` Aquí se debe enviar el link de la ruta a la página de registro
                 }, (error, info) => {
@@ -149,7 +152,7 @@ app.get('/dashboard', (req, res) => {
   }
 });
 
-// Ruta para la aplicación personalizada
+// Ruta personalizada para el registro, donde la URL contiene un parámetro "email" con la dirección de mail desde donde se está accediendo.
 app.get('/app', (req, res) => {
   const email = req.query.email; // Obtiene el parámetro "email" de la URL
 
@@ -161,7 +164,7 @@ app.get('/app', (req, res) => {
   } else {
     // Si se proporciona un correo electrónico válido en la URL se redirige a la ruta
     res.sendFile(__dirname + '/index.html');
-    console.log(email);
+    destinatario = email; // Se le asigna el valor del parámetro "email" a la variable "destinatario".
   }
 });
 
