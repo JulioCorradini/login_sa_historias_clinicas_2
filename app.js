@@ -64,11 +64,6 @@ app.post('/register', async (req, res) => {
 
   const serverURL = `${req.protocol}://${req.get('host')}`; // Variable que guarda la URL del servidor donde se despliega la aplicación.
 
-  // Validación: Verificar que no haya campos en blanco y que cumplan con restricciones
-  if (!username || !password || username.trim() === '' || password.trim() === '') {
-    //No hace nada, solo se mantiene la página cargando mostrando el mensaje de error hasta que el usuario presione el botón de "Inténtelo Denuevo".
-  };
-
   // Validación: Verificar que la contraseña tenga al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un carácter especial y al menos un número.
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$/;
   if (!password.match(passwordRegex)) {
@@ -122,11 +117,6 @@ app.post('/register', async (req, res) => {
 // Ruta de inicio de sesión
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
-
-  // Validación: Verificar que no haya campos en blanco y que cumplan con restricciones
-  if (!username || !password || username.trim() === '' || password.trim() === '') {
-    res.redirect('/indexLoginVacio.html');
-  } else {
     db.query(
       'SELECT * FROM users WHERE username = ?',
       [username],
@@ -144,7 +134,6 @@ app.post('/login', (req, res) => {
         }
       }
     );
-  }
 });
 
 // Ruta del panel de control después del inicio de sesión exitoso. En realidad aqui se debe seguir el link al portal con las historias clínicas.
