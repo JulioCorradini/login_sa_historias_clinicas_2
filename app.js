@@ -96,7 +96,7 @@ app.post('/register', async (req, res) => {
                     from: EMAIL_USER,//'julcorradi@gmail.com', // Aquí va el correo oficial del sanatorio
                     to: destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
                     subject: 'Registro exitoso',
-                    html: `<p>Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente <a href='${serverURL}/indexLogin.html'>link</a>.</p>`//`Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente link ${serverURL}/indexLogin.html` Aquí se debe enviar el link de la ruta a la página de registro
+                    html: `<p>Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente <a href='${serverURL}/indexLogin.html'>link</a>.</p><button onclick="funcionMail()">Presione aquí</button>`//`Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente link ${serverURL}/indexLogin.html` Aquí se debe enviar el link de la ruta a la página de registro
                   }, (error, info) => {
                     if (error) {
                       console.log('Error al enviar el correo electrónico:', error);
@@ -160,6 +160,11 @@ app.get('/app', (req, res) => {
     destinatario = email; // Se le asigna el valor del parámetro "email" a la variable "destinatario".
   }
 });
+
+//Función para completar el registro del ususario.
+function funcionMail(){
+  console.log('Registro exitoso');
+}
 
 
 app.listen(PORT, () => {
