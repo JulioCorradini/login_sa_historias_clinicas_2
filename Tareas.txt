@@ -1,3 +1,5 @@
 1- Encontrar la forma de que el primer link que se envía con la ruta a la página de registro tenga el mail en su URL
 2- Revisar si es necesario un sistema de recuperación de contraseña.
 3- Cambiar el archivo ".env" a gitignore para que quede secreto.
+4- Revisar el funcionamiento con el servidor de render.com
+5- Loagrar que para que el registro se complete, se realice una acción en el mail.
