@@ -81,34 +81,34 @@ app.post('/register', async (req, res) => {
         if (result.length > 0) {
           return res.redirect('/indexRegistroError.html');
         }else{
-          //Si el nombre de usuario no existe, proceder con el registro.
-          const hashedPassword = bcrypt.hashSync(password, 10); // Se usa "hashSync" en lugar de "hash" para evitar tratar esta parte del código de forma asíncrona. Pero si en un futuro la App tiene mucha concurrencia o por otras razones se requiere que el encriptado se realice de forma asíncrona, habría que considerar usar "hash" de forma asíncrona.
-          console.log(hashedPassword);
-          db.query(
-            'INSERT INTO users (username, password) VALUES (?, ?)',
-            [username, hashedPassword],
-            (err, result) => {
-              if (err) {
-                console.log(err);
-                res.redirect('/');
-              } else {
-                transporter.sendMail({
-                  from: EMAIL_USER,//'julcorradi@gmail.com', // Aquí va el correo oficial del sanatorio
-                  to: destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
-                  subject: 'Registro exitoso',
-                  html: `<p>Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente <a href='${serverURL}/indexLogin.html'>link</a>.</p>`//`Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente link ${serverURL}/indexLogin.html` Aquí se debe enviar el link de la ruta a la página de registro
-                }, (error, info) => {
-                  if (error) {
-                    console.log('Error al enviar el correo electrónico:', error);
-                  } else {
-                    console.log('Correo electrónico enviado:', info.response);
-                  }
-                });
-                res.redirect('/indexRegistroExitoso.html');
+            //Si el nombre de usuario no existe, proceder con el registro.
+            const hashedPassword = bcrypt.hashSync(password, 10); // Se usa "hashSync" en lugar de "hash" para evitar tratar esta parte del código de forma asíncrona. Pero si en un futuro la App tiene mucha concurrencia o por otras razones se requiere que el encriptado se realice de forma asíncrona, habría que considerar usar "hash" de forma asíncrona.
+            console.log(hashedPassword);
+            db.query(
+              'INSERT INTO users (username, password) VALUES (?, ?)',
+              [username, hashedPassword],
+              (err, result) => {
+                if (err) {
+                  console.log(err);
+                  res.redirect('/');
+                } else {
+                  transporter.sendMail({
+                    from: EMAIL_USER,//'julcorradi@gmail.com', // Aquí va el correo oficial del sanatorio
+                    to: destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
+                    subject: 'Registro exitoso',
+                    html: `<p>Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente <a href='${serverURL}/indexLogin.html'>link</a>.</p>`//`Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente link ${serverURL}/indexLogin.html` Aquí se debe enviar el link de la ruta a la página de registro
+                  }, (error, info) => {
+                    if (error) {
+                      console.log('Error al enviar el correo electrónico:', error);
+                    } else {
+                      console.log('Correo electrónico enviado:', info.response);
+                    }
+                  });
+                  res.redirect('/indexRegistroExitoso.html');
+                }
               }
-            }
-          );
-        }
+            );
+          }
       }  
     );
   }

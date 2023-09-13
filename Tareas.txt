@@ -1,5 +1,4 @@
 1- Arreglar la base de datos de freesqldatabase
 2- Encontrar la forma de que el primer link que se envía con la ruta a la página de registro tenga el mail en su URL
-3- Revisar si es necesaria una validación de "contraseña ya registrada".
-4- Revisar si es necesario un sistema de recuperación de contraseña.
-5- Cambiar el archivo ".env" a gitignore para que quede secreto.
+3- Revisar si es necesario un sistema de recuperación de contraseña.
+4- Cambiar el archivo ".env" a gitignore para que quede secreto.
