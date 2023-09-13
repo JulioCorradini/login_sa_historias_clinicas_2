@@ -22,7 +22,7 @@ const db = mysql.createConnection({
 
 
   // Estas son las varirables de entorno con las credenciales de una Base de Datos de prueba en el servidor de freesqldatabase.com
-  //App deployada para test en el servidor gratuito de render.com. Se accede mediante el link https://login-sa-historias-clinicas-2.onrender.com
+  //App deployada para test en el servidor gratuito de render.com. Se accede mediante el link https://login-sa.onrender.com/
   //La base de datos de freesqldatabase.com se puede visualizar accediendo al link https://www.phpmyadmin.co/db_structure.php?server=1&db=sql9646191 con las correspondientes credenciales.
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
