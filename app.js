@@ -23,7 +23,7 @@ const db = mysql.createConnection({
 
   // Estas son las varirables de entorno con las credenciales de una Base de Datos de prueba en el servidor de freesqldatabase.com
   //App deployada para test en el servidor gratuito de render.com. Se accede mediante el link https://login-sa.onrender.com/
-  //La base de datos de freesqldatabase.com se puede visualizar accediendo al link https://www.phpmyadmin.co/db_structure.php?server=1&db=sql9646191 con las correspondientes credenciales.
+  //La base de datos de freesqldatabase.com se puede visualizar accediendo al link https://www.phpmyadmin.co con las correspondientes credenciales.
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
@@ -93,10 +93,10 @@ app.post('/register', async (req, res) => {
                   res.redirect('/');
                 } else {
                   transporter.sendMail({
-                    from: EMAIL_USER,//'julcorradi@gmail.com', // Aquí va el correo oficial del sanatorio
+                    from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
                     to: destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
                     subject: 'Registro exitoso',
-                    html: `<p>Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente <a href='${serverURL}/indexLogin.html'>link</a>.</p><button onclick="funcionMail()">Presione aquí</button>`//`Hola, su registro en la aplicación fue exitoso. Puede acceder a su cuenta con su mail y la clave que creó en el siguiente link ${serverURL}/indexLogin.html` Aquí se debe enviar el link de la ruta a la página de registro
+                    html: `<p>Hola, su registro fue exitoso. Infrese al siguiente <a href='${serverURL}/indexLogin'>link</a>.</p>`
                   }, (error, info) => {
                     if (error) {
                       console.log('Error al enviar el correo electrónico:', error);
@@ -160,11 +160,6 @@ app.get('/app', (req, res) => {
     destinatario = email; // Se le asigna el valor del parámetro "email" a la variable "destinatario".
   }
 });
-
-//Función para completar el registro del ususario.
-function funcionMail(){
-  console.log('Registro exitoso');
-}
 
 
 app.listen(PORT, () => {
