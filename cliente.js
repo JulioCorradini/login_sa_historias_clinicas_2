@@ -25,3 +25,7 @@ function recargar(){
 function reenviar(){
   window.location.href = '/indexLogin.html';
 }
+
+function recargarToken() {
+  window.location.href = '/confirmaion';
+}
