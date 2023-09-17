@@ -27,5 +27,5 @@ function reenviar(){
 }
 
 function recargarToken() {
-  window.location.href = '/confirmaion';
+  window.location.href = '/indexConfirmacion.html';
 }

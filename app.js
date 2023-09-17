@@ -82,7 +82,7 @@ app.post('/register', async (req, res) => {
           return res.redirect('/indexRegistroError.html');
         }else{
             //Si el nombre de usuario no existe, proceder con el registro.
-            const token = bcrypt.hashedPassword(Math.floor(Math.random() * (100 - 1)) + 1,10); // Se crea un token de seguridad para el proceso de confirmación de registro.
+            const token = Math.floor(Math.random() * (100 - 1)) + 1; // Se crea un token de seguridad para el proceso de confirmación de registro.
             const hashedPassword = bcrypt.hashSync(password, 10); // Se usa "hashSync" en lugar de "hash" para evitar tratar esta parte del código de forma asíncrona. Pero si en un futuro la App tiene mucha concurrencia o por otras razones se requiere que el encriptado se realice de forma asíncrona, habría que considerar usar "hash" de forma asíncrona.
             console.log(hashedPassword);
             db.query(
@@ -97,7 +97,7 @@ app.post('/register', async (req, res) => {
                     from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
                     to: username,//destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
                     subject: 'Registro exitoso',
-                    html: `<p>Hola, su registro está casi completo. Para completar el proceso ingrese al siguiente <a href='${serverURL}/indexConfirmacion'>link</a> e introduzca el siguiente código de seguridad ${token}.</p>`
+                    html: `<p>Hola, su registro está casi completo. Para completar el proceso ingrese al siguiente <a href='${serverURL}/indexConfirmacion.html'>link</a> e introduzca el siguiente código de seguridad ${token}.</p>`
                   }, (error, info) => {
                     if (error) {
                       console.log('Error al enviar el correo electrónico:', error);
@@ -106,7 +106,32 @@ app.post('/register', async (req, res) => {
                     }
                   });
                   res.redirect('/indexRegistroExitoso.html');
-                  //Auí debe hacer un temporizador que al finalizar borre los regisros no confirmados de la base de datos.
+                  //Auí hay un temporizador que al finalizar cierto tiempo ejecuta una función que borra los regisros no confirmados de la base de datos. Es decir, los que tienen un 0 en el campo 'confirmacion'.
+                  setTimeout(()=>{
+                    db.query(
+                      'DELETE FROM users WHERE confirmacion = ?',
+                      [0],
+                      (err, result)=>{
+                        if (err){
+                          console.log(err);
+                          res.redirect('/');
+                        } else {
+                          transporter.sendMail({
+                            from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
+                            to: username,//destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
+                            subject: 'Su tiempo expiró',
+                            html: `<p>Hola, lamentamos informarle que el tiempo para confirmar su registro a caducado, por lo que su cuenta no se registró en nuestro sistema. Para poder realizar el proceso de registro de forma satisfactoria siga el siguiente <a href='${serverURL}/index.html'>link</a> y vuelva introducir su mail y a crear una contraseña. Luego siga las insrucciones detalladas dentro del tiempo estimado para completar el proceso.</p>`
+                          }, (error, info) => {
+                            if (error) {
+                              console.log('Error al enviar el correo electrónico:', error);
+                            } else {
+                              console.log('Correo electrónico enviado:', info.response);
+                            }
+                          });
+                        }
+                      }
+                    )
+                  }, 5 * 60 * 1000)
                 }
               }
             );
@@ -117,7 +142,7 @@ app.post('/register', async (req, res) => {
 });
 
 // Ruta de confirmación de registro
-app.post('/confirmaion', (req, res)=>{
+app.post('/confirmacion', (req, res)=>{
   const { username, token } = req.body;
   db.query(
     'SELECT * FROM users WHERE username = ? AND token = ?',
@@ -126,13 +151,22 @@ app.post('/confirmaion', (req, res)=>{
       if(err) {
         console.log(err);
         res.redirect('/');
-      } if (result > 0) {
+      } if (result.length > 0) {
         db.query (
-          //Aquí debo cambiar el campo confirmaion de 0 a 1.
+          'UPDATE users SET confirmacion = ? WHERE username = ?',
+            [1, username],
+            (err, result) => {
+              if (err) {
+                console.log(err);
+                res.redirect('/');
+              } else {
+                res.redirect('/indexConfirmacionExitosa.html');
+              }
+            }
         )
-        res.redirect('/indexConfirmacionExitosa');
+        //res.redirect('/indexConfirmacionExitosa');
       } else {
-        res.redirect('/indexTokenInvalido');
+        res.redirect('/indexTokenInvalido.html');
       } 
     }
   )
