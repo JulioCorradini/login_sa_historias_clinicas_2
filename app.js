@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
+const cron = require('node-cron'); //node-cron
 
 
 const app = express();
@@ -107,7 +108,7 @@ app.post('/register', async (req, res) => {
                   });
                   res.redirect('/indexRegistroExitoso.html');
                   //Auí hay un temporizador que al finalizar cierto tiempo ejecuta una función que borra los regisros no confirmados de la base de datos. Es decir, los que tienen un 0 en el campo 'confirmacion'.
-                  setTimeout(()=>{
+                  cron.schedule('*/5 * * * *',()=>{ // HAY QUE LOGRAR QUE SOLO SE EJECUTE UNA VEZ
                     db.query(
                       'DELETE FROM users WHERE confirmacion = ?',
                       [0],
@@ -131,7 +132,7 @@ app.post('/register', async (req, res) => {
                         }
                       }
                     )
-                  }, 5 * 60 * 1000)
+                  });
                 }
               }
             );

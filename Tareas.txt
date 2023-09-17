@@ -1,3 +1,4 @@
 1- Cambiar la validación del campo username para que solo acepte un string con esturctura de mail.
 2- Revisar si es necesario un sistema de recuperación de contraseña.
 3- Cambiar el archivo ".env" a gitignore para que quede secreto.
+4- Lograr que se puedan seguir realizando registros mientras corre el temporizador de la función que borra los registros.
