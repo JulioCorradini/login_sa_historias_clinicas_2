@@ -5,13 +5,12 @@ const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
-const cron = require('node-cron'); //node-cron
 
 
 const app = express();
 const PORT = process.env.PORT; // Variable de entorno para determinar el puerto de ejecución.
 
-var destinatario = ''; // Esta variable queda vacía hasta que se aaceda ala ruta '/app' y se le asigne el valor del parámetro 'email' que aparece en la URL personalizada.
+var destinatario = ''; // Esta variable queda vacía hasta que se aceda ala ruta '/app' y se le asigne el valor del parámetro 'email' que aparece en la URL personalizada.
 
 // Configuración de la base de datos MySQL
 const db = mysql.createConnection({
@@ -107,16 +106,17 @@ app.post('/register', async (req, res) => {
                     }
                   });
                   res.redirect('/indexRegistroExitoso.html');
-                  //Auí hay un temporizador que al finalizar cierto tiempo ejecuta una función que borra los regisros no confirmados de la base de datos. Es decir, los que tienen un 0 en el campo 'confirmacion'.
-                  cron.schedule('*/5 * * * *',()=>{ // HAY QUE LOGRAR QUE SOLO SE EJECUTE UNA VEZ
+                  //Aquí hay un temporizador que al finalizar cierto tiempo ejecuta una función que borra los regisros no confirmados de la base de datos. Es decir, los que tienen un 0 en el campo 'confirmacion'.
+                  setTimeout(()=>{
                     db.query(
-                      'DELETE FROM users WHERE confirmacion = ?',
-                      [0],
+                      'DELETE FROM users WHERE confirmacion = ? AND username = ?',
+                      [0, username],
                       (err, result)=>{
                         if (err){
                           console.log(err);
                           res.redirect('/');
                         } else {
+                          console.log("se borró el registro");
                           transporter.sendMail({
                             from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
                             to: username,//destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
@@ -131,8 +131,7 @@ app.post('/register', async (req, res) => {
                           });
                         }
                       }
-                    )
-                  });
+                    )}, 5 * 60000);
                 }
               }
             );
