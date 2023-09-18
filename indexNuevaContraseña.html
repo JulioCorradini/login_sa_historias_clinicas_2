@@ -9,15 +9,15 @@
 <body>
   <div class="container" id="container">
     <h1>Para crear una nueva contraseña y recuperar su cuenta ingrese nuevamente su mail, el código de seguridad que le enviamos y su nueva contraseña</h1>
-    <form id="miFormulario" action="/nuevaContraseña" method="POST">
+    <form id="miFormulario" action="/nuevaContrasena" method="POST">
       <input id="username" type="text" name="username" placeholder="Mail" required>
       <input type="text" name="token" placeholder="Token" required>
       <input id="password" type="password" name="password" placeholder="Contraseña" required>
-      <button id="button" type="submit" onclick="validarContraseña(password.value)">Cambar Contraseña</button>
+      <button id="button" type="submit" onclick="validarContraseña(password.value)">Cambiar Contraseña</button>
     </form>
   </div>
   <div class="containerOculto" id="containerOculto" style="display: none;">
-    <h1 id="error">¡ERROR EN LA CONTRASEÑA!</h1>
+    <h1 id="error">¡ERROR EN EL MAIL O EL CÓDIGO DE SEGURIDAD!</h1>
     <div id="mensajeDeError">
       <h3 id="textoDeError"></h3>
     </div>

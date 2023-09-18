@@ -4,6 +4,10 @@ const textoDeError = document.getElementById("textoDeError");
 const container = document.getElementById("container");
 const containerOculto = document.getElementById("containerOculto");
 
+const tituloDelMensaje = document.getElementById("tituloDelMensaje");
+const mensaje = document.getElementById("mensaje");
+const textoDelMensaje = document.getElementById("textoDelMensaje");
+
 function validarContraseña(password) {
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$/;
   //return password.match(passwordRegex) !== null;
@@ -31,13 +35,10 @@ function recargarToken() {
   window.location.href = '/indexConfirmacion.html';
 }
 
-function mostrarMensaje(titulo, mensaje) {
-  const tituloDelMensaje = document.getElementById("tituloDelMensaje");
-  const mensaje = document.getElementById("mensaje");
-  const textoDelMensaje = document.getElementById("textoDelMensaje");
+function mostrarMensaje(paramTitulo, paramMensaje) {
 
-  tituloDelMensaje.innerText = titulo;
-  textoDelMensaje.innerText = mensaje;
+  tituloDelMensaje.innerText = paramTitulo;
+  textoDelMensaje.innerText = paramMensaje;
   mensaje.appendChild(textoDelMensaje);
   container.style.display = "none";
   containerOculto.style.display = "block";

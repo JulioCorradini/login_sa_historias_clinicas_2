@@ -62,7 +62,7 @@ app.get('/', (req, res) => {
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
 
-  const serverURL = `${req.protocol}://${req.get('host')}`; // Variable que guarda la URL del servidor donde se despliega la aplicación.
+  var serverURL = `${req.protocol}://${req.get('host')}`; // Variable que guarda la URL del servidor donde se despliega la aplicación.
 
   // Validación: Verificar que la contraseña tenga al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un carácter especial y al menos un número.
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$/;
@@ -223,6 +223,7 @@ app.get('/app', (req, res) => {
 app.post('/recuperacion', (req, res)=>{
   const { username } = req.body;
   const token = Math.floor(Math.random() * (100 - 1)) + 1; // Se crea un token de seguridad para el proceso de recuperación de cuenta.
+  var serverURL = `${req.protocol}://${req.get('host')}`; // Variable que guarda la URL del servidor donde se despliega la aplicación.
   db.query(
     'UPDATE users SET token = ? WHERE username = ?',
     [token, username],
@@ -248,8 +249,9 @@ app.post('/recuperacion', (req, res)=>{
 })
 
 //Ruta de creación de nueva contraseña
-app.post('/nuevaContraseña', (req, res)=>{
+app.post('/nuevaContrasena', (req, res)=>{
   const { username, token, password } = req.body;
+  var serverURL = `${req.protocol}://${req.get('host')}`; // Variable que guarda la URL del servidor donde se despliega la aplicación.
   
   // Validación: Verificar que la contraseña tenga al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un carácter especial y al menos un número.
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$/;
@@ -262,10 +264,11 @@ app.post('/nuevaContraseña', (req, res)=>{
     async (err, result) => {
       if (err) {
         res.redirect('/');
-      } if(result) {
+      } if(result.length > 0) {
+        const newHashedPassword = bcrypt.hashSync(password, 10); // Se usa "hashSync" en lugar de "hash" para evitar tratar esta parte del código de forma asíncrona. Pero si en un futuro la App tiene mucha concurrencia o por otras razones se requiere que el encriptado se realice de forma asíncrona, habría que considerar usar "hash" de forma asíncrona.
         db.query(
           'UPDATE users SET password = ? WHERE username = ? AND token = ?',
-          [password, username, token],
+          [newHashedPassword, username, token],
           async (err, result) => {
             if (err) {
               res.redirect('/');
@@ -282,12 +285,13 @@ app.post('/nuevaContraseña', (req, res)=>{
                   console.log('Correo electrónico enviado:', info.response);
                 }
               });
-            } else {
-              // Si el token ingresado es incorrecto o si la contraseña ingresada no cumple con los requisitos.
-              res.redirect('/indexErrorNuevaContraseña.html');
+              res.redirect('/indexNuevaContraseñaExitosa.html');
             }
           }
         )
+      } else {
+        // Si el token ingresado es incorrecto o si la contraseña ingresada no cumple con los requisitos.
+        res.redirect('/indexErrorNuevaContraseña.html');
       }
     }
   );
