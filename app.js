@@ -115,7 +115,7 @@ app.post('/register', async (req, res) => {
                         if (err){
                           console.log(err);
                           res.redirect('/');
-                        } else {
+                        } if (result) {
                           console.log("se borró el registro");
                           transporter.sendMail({
                             from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
