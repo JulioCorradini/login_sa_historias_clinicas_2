@@ -219,6 +219,81 @@ app.get('/app', (req, res) => {
   }
 });
 
+// Ruta de recuperación de contraseña
+app.post('/recuperacion', (req, res)=>{
+  const { username } = req.body;
+  const token = Math.floor(Math.random() * (100 - 1)) + 1; // Se crea un token de seguridad para el proceso de recuperación de cuenta.
+  db.query(
+    'UPDATE users SET token = ? WHERE username = ?',
+    [token, username],
+    async (err, result) => {
+      if (err) {
+        res.redirect('/');
+      } if(result) {
+        transporter.sendMail({
+          from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
+          to: username,//destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
+          subject: 'Recuperación de cuenta',
+          html: `<p>Hola, para recuperar su cuenta siga el siguiente <a href='${serverURL}/indexNuevaContraseña.html'>link</a> e introduzca el siguiente código de seguridad ${token}.</p>`
+        }, (error, info) => {
+          if (error) {
+            console.log('Error al enviar el correo electrónico:', error);
+          } else {
+            console.log('Correo electrónico enviado:', info.response);
+          }
+        });
+      }
+    }
+  );
+})
+
+//Ruta de creación de nueva contraseña
+app.post('/nuevaContraseña', (req, res)=>{
+  const { username, token, password } = req.body;
+  
+  // Validación: Verificar que la contraseña tenga al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un carácter especial y al menos un número.
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$/;
+  if (!password.match(passwordRegex)) {
+    //No hace nada, solo se mantiene la página cargando mostrando el mensaje de error hasta que el usuario presione el botón de "Inténtelo Denuevo".
+  } else {
+    db.query(
+    'SELECT * FROM users WHERE username = ? AND token = ?',
+    [username, token],
+    async (err, result) => {
+      if (err) {
+        res.redirect('/');
+      } if(result) {
+        db.query(
+          'UPDATE users SET password = ? WHERE username = ? AND token = ?',
+          [password, username, token],
+          async (err, result) => {
+            if (err) {
+              res.redirect('/');
+            } if (result) {
+              transporter.sendMail({
+                from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
+                to: username,//destinatario
+                subject: 'Contraseña actualizada',
+                html: `<p>Hola, su contraseña ha sigo actualizada correctamente. Puede ingresar a la misma siguiendo el siguiente <a href='${serverURL}/indexLogin.html'>link</a> e introduciendo su mail y su nueva contraseña.</p>`
+              }, (error, info) => {
+                if (error) {
+                  console.log('Error al enviar el correo electrónico:', error);
+                } else {
+                  console.log('Correo electrónico enviado:', info.response);
+                }
+              });
+            } else {
+              // Si el token ingresado es incorrecto o si la contraseña ingresada no cumple con los requisitos.
+              res.redirect('/indexErrorNuevaContraseña.html');
+            }
+          }
+        )
+      }
+    }
+  );
+  };
+})
+
 
 app.listen(PORT, () => {
   console.log(`Servidor en funcionamiento en el puerto ${PORT}`);

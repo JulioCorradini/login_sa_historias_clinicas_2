@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles.css">
+  <title>Recuperación de contraseña</title>
+</head>
+<body>
+  <div class="container" id="container">
+    <h1>Para recuperar su cuenta ingrese su dirección de mail y le enviaremos un código de recuperación</h1>
+    <form id="miFormulario" action="/recuperacion" method="POST">
+      <input id="username" type="text" name="username" placeholder="Mail" required>
+      <button id="button" type="submit" onclick="mostrarMensaje('Revise su mail', 'Le hemos enviado un mensaje con un código de seguridad. Siga las instrucciones.')">Enviar Mail</button>
+    </form>
+  </div>
+  <div class="containerOculto" id="containerOculto" style="display: none;">
+    <h1 id="tituloDelMensaje"></h1>
+    <div id="mensaje">
+      <h3 id="textoDelMensaje"></h3>
+    </div>
+  <script src="/cliente.js"></script>
+</body>
+</html>

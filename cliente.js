@@ -22,10 +22,23 @@ function recargar(){
   }, 1000);
 }
 
-function reenviar(){
-  window.location.href = '/indexLogin.html';
+function reenviar(ruta){
+  window.location.href = ruta;
+  window.location.href = ruta;
 }
 
 function recargarToken() {
   window.location.href = '/indexConfirmacion.html';
+}
+
+function mostrarMensaje(titulo, mensaje) {
+  const tituloDelMensaje = document.getElementById("tituloDelMensaje");
+  const mensaje = document.getElementById("mensaje");
+  const textoDelMensaje = document.getElementById("textoDelMensaje");
+
+  tituloDelMensaje.innerText = titulo;
+  textoDelMensaje.innerText = mensaje;
+  mensaje.appendChild(textoDelMensaje);
+  container.style.display = "none";
+  containerOculto.style.display = "block";
 }
