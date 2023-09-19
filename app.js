@@ -161,6 +161,18 @@ app.post('/confirmacion', (req, res)=>{
                 res.redirect('/');
               } else {
                 res.redirect('/indexConfirmacionExitosa.html');
+                transporter.sendMail({
+                  from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
+                  to: username,//destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
+                  subject: 'Confirmación exitosa',
+                  html: `<p>Hola, ya hemos confirmado su mail y el proceso de registro ha sido completado con exito. Para ingresar a su cuenta siga el siguiente <a href='${serverURL}/indexLogin.html'>link</a> e introduzca su mail y su contraseña.</p>`
+                }, (error, info) => {
+                  if (error) {
+                    console.log('Error al enviar el correo electrónico:', error);
+                  } else {
+                    console.log('Correo electrónico enviado:', info.response);
+                  }
+                });
               }
             }
         )
