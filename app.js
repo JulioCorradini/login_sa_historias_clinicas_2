@@ -115,7 +115,7 @@ app.post('/register', async (req, res) => {
                         if (err){
                           console.log(err);
                           res.redirect('/');
-                        } if (result) {
+                        } if (result.affectedRows > 0) {
                           console.log("se borró el registro");
                           transporter.sendMail({
                             from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
@@ -164,7 +164,6 @@ app.post('/confirmacion', (req, res)=>{
               }
             }
         )
-        //res.redirect('/indexConfirmacionExitosa');
       } else {
         res.redirect('/indexTokenInvalido.html');
       } 
