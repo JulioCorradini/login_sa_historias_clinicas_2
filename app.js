@@ -144,6 +144,7 @@ app.post('/register', async (req, res) => {
 // Ruta de confirmación de registro
 app.post('/confirmacion', (req, res)=>{
   const { username, token } = req.body;
+  var serverURL = `${req.protocol}://${req.get('host')}`; // Variable que guarda la URL del servidor donde se despliega la aplicación.
   db.query(
     'SELECT * FROM users WHERE username = ? AND token = ?',
     [username, token],
