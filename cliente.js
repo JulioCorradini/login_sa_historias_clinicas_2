@@ -9,7 +9,7 @@ const mensaje = document.getElementById("mensaje");
 const textoDelMensaje = document.getElementById("textoDelMensaje");
 
 function validarContraseña(password) {
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!()\-_{}[\]:;"'<>,.?/\\|]).{8,}$/;
   //return password.match(passwordRegex) !== null;
   if(!password.match(passwordRegex)){
     textoDeError.innerText = "El campo no puede quedar en blanco. La contraseña debe tener al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un dígito y al menos un caracter especial.";

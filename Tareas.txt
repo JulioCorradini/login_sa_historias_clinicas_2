@@ -1,3 +1,1 @@
-1- Cambiar la validación del campo username para que solo acepte un string con esturctura de mail.//////
-2- Cambiar el archivo ".env" a gitignore para que quede secreto.
-4- Agregar más símbolos a la expresión regular.
+1- Cambiar el archivo ".env" a gitignore para que quede secreto.
