@@ -33,6 +33,27 @@ body {
     border: 1px solid #ccc;
     border-radius: 3px;
   }
+
+  .password-container {
+    position: relative;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  /* Estilo para el icono de ojo */
+  .fa-eye-slash::before {
+    content: "\f070"; /* Código Unicode para el icono del ojo con línea de cierre */
+  }
+
+  .fa-eye::before {
+    content: "\f06e"; /* Código Unicode para el icono del ojo abierto */
+  }
   
   button {
     padding: 8px 12px;
@@ -55,3 +76,4 @@ body {
     color: rgb(168, 5, 5);
     font-family:Arial, Helvetica, sans-serif
   }
+
