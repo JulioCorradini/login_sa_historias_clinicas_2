@@ -9,7 +9,7 @@ const mensaje = document.getElementById("mensaje");
 const textoDelMensaje = document.getElementById("textoDelMensaje");
 
 function validarContraseña(password) {
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!()\-_{}[\]:;"'<>,.?/\\|]).{8,}$/;
   //return password.match(passwordRegex) !== null;
   if(!password.match(passwordRegex)){
     textoDeError.innerText = "El campo no puede quedar en blanco. La contraseña debe tener al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un dígito y al menos un caracter especial.";
@@ -43,3 +43,16 @@ function mostrarMensaje(paramTitulo, paramMensaje) {
   container.style.display = "none";
   containerOculto.style.display = "block";
 }
+
+//Función para mostrar la contraseña
+const passwordField = document.getElementById('password');
+const togglePassword = document.getElementById('toggle-password');
+
+togglePassword.addEventListener('click', function () {
+    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', type);
+
+    // Cambia el icono de ojo según si se muestra u oculta la contraseña
+    togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+    togglePassword.querySelector('i').classList.toggle('fa-eye');
+});

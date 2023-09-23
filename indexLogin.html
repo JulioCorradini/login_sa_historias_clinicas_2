@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <title>Inicio de sesión</title>
 </head>
 <body>
@@ -11,9 +12,15 @@
     <h1>Inicio de Sesión</h1>
     <form action="/login" method="POST">
       <input type="email" name="username" placeholder="Mail" required>
-      <input type="password" name="password" placeholder="Contraseña" required>
+      <div class="password-container">
+        <input id="password" type="password" name="password" placeholder="Contraseña" required>
+        <span id="toggle-password" class="password-toggle">
+          <i class="fa fa-eye-slash" aria-hidden="true"></i>
+        </span>
+      </div>
       <button type="submit">Iniciar Sesión</button>
     </form>
   </div>
+  <script src="/cliente.js"></script>
 </body>
 </html>
