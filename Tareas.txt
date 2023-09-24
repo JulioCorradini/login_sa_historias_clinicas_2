@@ -1,1 +1,4 @@
 1- Cambiar el archivo ".env" a gitignore para que quede secreto.
+2- Que no diga "Token", sino código de seguridad.
+3- Que los textos largos tengan forma más horizontal.
+4- Que el texto de recuperación diga "Para recuperar su cuenta, ingrese nuevamente su mail, el código de seguridad que le enviamos, y coloque una nueva contraseña".
