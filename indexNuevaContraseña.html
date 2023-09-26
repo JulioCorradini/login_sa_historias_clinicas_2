@@ -9,10 +9,10 @@
 </head>
 <body>
   <div class="container" id="container">
-    <h1>Para crear una nueva contraseña y recuperar su cuenta ingrese nuevamente su mail, el código de seguridad que le enviamos y su nueva contraseña</h1>
+    <h1>Para recuperar su cuenta, ingrese nuevamente su mail, el código de seguridad que le enviamos, y coloque una nueva contraseña</h1>
     <form id="miFormulario" action="/nuevaContrasena" method="POST">
       <input id="username" type="email" name="username" placeholder="Mail" required>
-      <input type="text" name="token" placeholder="Token" required>
+      <input type="text" name="token" placeholder="Código de seguridad" required>
       <div class="password-container">
         <input id="password" type="password" name="password" placeholder="Contraseña" required>
         <span id="toggle-password" class="password-toggle">

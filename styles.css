@@ -14,6 +14,9 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     width: 300px;
+    /*min-width: 300px; /* Ancho mínimo de 300px 
+    max-width: 600px; /* Ancho máximo de 600px
+    margin: 0 auto; /* Centro horizontalmente */
     text-align: center;
   }
   

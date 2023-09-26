@@ -10,24 +10,24 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT; // Variable de entorno para determinar el puerto de ejecución.
 
-var destinatario = ''; // Esta variable queda vacía hasta que se aceda ala ruta '/app' y se le asigne el valor del parámetro 'email' que aparece en la URL personalizada.
+var destinatario = ''; // Esta variable queda vacía hasta que se acceda a la ruta '/app' y se le asigne el valor del parámetro 'email' que aparece en la URL personalizada.
 
 // Configuración de la base de datos MySQL
 const db = mysql.createConnection({
   // Variables de entorno con las credenciales de una Base de Datos de prueba en mi localhost
-  /*host: process.env.DB_HOST_LOCAL,
+  host: process.env.DB_HOST_LOCAL,
   user: process.env.DB_USER_LOCAL,
   password: process.env.DB_PASS_LOCAL,
-  database: process.env.DB_NAME_LOCAL*/
+  database: process.env.DB_NAME_LOCAL
 
 
   // Estas son las varirables de entorno con las credenciales de una Base de Datos de prueba en el servidor de freesqldatabase.com
   //App deployada para test en el servidor gratuito de render.com. Se accede mediante el link https://login-sa.onrender.com/
   //La base de datos de freesqldatabase.com se puede visualizar accediendo al link https://www.phpmyadmin.co con las correspondientes credenciales.
-  host: process.env.DB_HOST,
+  /*host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
-  database: process.env.DB_NAME
+  database: process.env.DB_NAME*/
 });
 
 //Variables de entrorno con las credenciales para enviar el mail con "nodemailer".
@@ -97,7 +97,7 @@ app.post('/register', async (req, res) => {
                     from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
                     to: username,//destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
                     subject: 'Registro exitoso',
-                    html: `<p>Hola, su registro está casi completo. Para completar el proceso ingrese al siguiente <a href='${serverURL}/indexConfirmacion.html'>link</a> e introduzca el siguiente código de seguridad ${token}.</p>`
+                    html: `<p>Hola, su registro está casi completo. Para confirmar el proceso ingrese al siguiente <a href='${serverURL}/indexConfirmacion.html'>link</a> e introduzca el siguiente código de seguridad ${token}. Tiene 5 minútos para realizar este procezo de confirmación, de lo contrario su cuenta será borrada de nuestro sistema y deberá repetir el registro.p</p>`
                   }, (error, info) => {
                     if (error) {
                       console.log('Error al enviar el correo electrónico:', error);
@@ -121,7 +121,7 @@ app.post('/register', async (req, res) => {
                             from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
                             to: username,//destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
                             subject: 'Su tiempo expiró',
-                            html: `<p>Hola, lamentamos informarle que el tiempo para confirmar su registro a caducado, por lo que su cuenta no se registró en nuestro sistema. Para poder realizar el proceso de registro de forma satisfactoria siga el siguiente <a href='${serverURL}/index.html'>link</a> y vuelva introducir su mail y a crear una contraseña. Luego siga las insrucciones detalladas dentro del tiempo estimado para completar el proceso.</p>`
+                            html: `<p>Hola, lamentamos informarle que el tiempo para confirmar su registro ha caducado, por lo que su cuenta se ha borrado de nuestro sistema. Para poder realizar el proceso de registro de forma satisfactoria siga el siguiente <a href='${serverURL}/index.html'>link</a>, vuelva introducir su mail y cree una contraseña. Luego siga las insrucciones detalladas para confirmar el registro dentro del tiempo estimado.</p>`
                           }, (error, info) => {
                             if (error) {
                               console.log('Error al enviar el correo electrónico:', error);
@@ -166,7 +166,7 @@ app.post('/confirmacion', (req, res)=>{
                   from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
                   to: username,//destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
                   subject: 'Confirmación exitosa',
-                  html: `<p>Hola, ya hemos confirmado su mail y el proceso de registro ha sido completado con exito. Para ingresar a su cuenta siga el siguiente <a href='${serverURL}/indexLogin.html'>link</a> e introduzca su mail y su contraseña.</p>`
+                  html: `<p>Hola, ya hemos confirmado su registro y el proceso ha sido completado con exito. Para ingresar a su cuenta siga el siguiente <a href='${serverURL}/indexLogin.html'>link</a> e introduzca su mail y su contraseña.</p>`
                 }, (error, info) => {
                   if (error) {
                     console.log('Error al enviar el correo electrónico:', error);
@@ -215,22 +215,6 @@ app.get('/dashboard', (req, res) => {
   }
 });
 
-// Ruta personalizada para el registro, donde la URL contiene un parámetro "email" con la dirección de mail desde donde se está accediendo.
-app.get('/app', (req, res) => {
-  const email = req.query.email; // Obtiene el parámetro "email" de la URL
-
-  // Verifica si se proporciona un correo electrónico en la URL
-  if (!email || email.trim() === '') {
-    // Si no se proporciona un correo electrónico, redirige o maneja el error de alguna manera
-    console.log('No se proporcionó un correo electrónico válido en la URL.');
-    res.redirect('/'); // Puedes redirigir al usuario a la página de inicio de sesión u otra página adecuada
-  } else {
-    // Si se proporciona un correo electrónico válido en la URL se redirige a la ruta
-    res.sendFile(__dirname + '/index.html');
-    destinatario = email; // Se le asigna el valor del parámetro "email" a la variable "destinatario".
-  }
-});
-
 // Ruta de recuperación de contraseña
 app.post('/recuperacion', (req, res)=>{
   const { username } = req.body;
@@ -247,7 +231,7 @@ app.post('/recuperacion', (req, res)=>{
           from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
           to: username,//destinatario, // Aquí debe ir el correo del usuario que se obtiene del parámetro email de la URL
           subject: 'Recuperación de cuenta',
-          html: `<p>Hola, para recuperar su cuenta siga el siguiente <a href='${serverURL}/indexNuevaContraseña.html'>link</a> e introduzca el siguiente código de seguridad ${token}.</p>`
+          html: `<p>Hola, para recuperar su cuenta debe crear una nueva contraseña. Siga el siguiente <a href='${serverURL}/indexNuevaContraseña.html'>link</a>, introduzca el siguiente código de seguridad ${token}, y siga las instrucciones.</p>`
         }, (error, info) => {
           if (error) {
             console.log('Error al enviar el correo electrónico:', error);
@@ -289,7 +273,7 @@ app.post('/nuevaContrasena', (req, res)=>{
                 from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
                 to: username,//destinatario
                 subject: 'Contraseña actualizada',
-                html: `<p>Hola, su contraseña ha sigo actualizada correctamente. Puede ingresar a la misma siguiendo el siguiente <a href='${serverURL}/indexLogin.html'>link</a> e introduciendo su mail y su nueva contraseña.</p>`
+                html: `<p>Hola, su contraseña ha sigo actualizada correctamente. Ahora puede ingresar a su cuenta siguiendo el siguiente <a href='${serverURL}/indexLogin.html'>link</a> e introduciendo su mail y su nueva contraseña.</p>`
               }, (error, info) => {
                 if (error) {
                   console.log('Error al enviar el correo electrónico:', error);

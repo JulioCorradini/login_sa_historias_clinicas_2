@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="/styles.css">
-  <title>Inicio de sesión</title>
+  <title>Confirmación de regisro</title>
 </head>
 <body>
   <div class="container" id="container">
-    <h1>Vuelva a introducir su mail y luego introduzca el Token que le enviamos para completar el proceso de regisro</h1>
+    <h1>Vuelva a introducir su mail y luego introduzca el Código de seguridad que le enviamos para completar el proceso de regisro</h1>
     <form action="/confirmacion" method="POST">
         <input id="username" type="email" name="username" placeholder="Mail" required>
-        <input type="text" name="token" placeholder="Token" required>
+        <input type="text" name="token" placeholder="Código de seguridad" required>
         <button type="submit">Confirmar</button>
     </form>
   </div>
