@@ -13,21 +13,26 @@ body {
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: 300px;
-    /*min-width: 300px; /* Ancho mínimo de 300px 
-    max-width: 600px; /* Ancho máximo de 600px
-    margin: 0 auto; /* Centro horizontalmente */
+    min-width: 300px;
+    max-width: 600px;
+    margin: 0 auto;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
   }
   
   h1 {
     text-align: center;
+    font-size: 140%;
   }
   
   form {
     display: flex;
     flex-direction: column;
-    padding-top: 10%;
+    min-width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
   }
   
   input {
@@ -35,10 +40,14 @@ body {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 3px;
+    width: 100%;
   }
 
   .password-container {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .toggle-password {
