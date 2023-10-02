@@ -1,17 +1,14 @@
 const bcrypt = require('bcrypt');
 const db = require('../dataBase/db'); // Importa la instancia de conexión a la base de datos desde db.js
-const transporter = require('../nodeMailer/nodeMailer')// Importa la instancia de nodeMailer desde nodeMialer.js
+const { emailMessage } = require('../nodeMailer/nodeMailer')// Importa la instancia de nodeMailer desde nodeMialer.js
+const passwordRegex = require('../regex/regex'); // Importa la variable con el regex.
 require('dotenv').config(); // Se traen las variables de entorno del archvio .env
-
-const EMAIL_USER = process.env.EMAIL_USER; // Variable para guardar el usuario de nodeMailer
 
 module.exports = {
     nuevaContrasena: (req, res) => {
         const { username, token, password } = req.body;
       var serverURL = `${req.protocol}://${req.get('host')}`; // Variable que guarda la URL del servidor donde se despliega la aplicación.
       
-      // Validación: Verificar que la contraseña tenga al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un carácter especial y al menos un número.
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!()\-_{}[\]:;"'<>,.?/\\|]).{8,}$/;
       if (!password.match(passwordRegex)) {
         //No hace nada, solo se mantiene la página cargando mostrando el mensaje de error hasta que el usuario presione el botón de "Inténtelo Denuevo".
       } else {
@@ -30,18 +27,7 @@ module.exports = {
                 if (err) {
                   res.redirect('/');
                 } if (result) {
-                  transporter.sendMail({
-                    from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
-                    to: username,//destinatario
-                    subject: 'Contraseña actualizada',
-                    html: `<p>Hola, su contraseña ha sigo actualizada correctamente. Ahora puede ingresar a su cuenta siguiendo el siguiente <a href='${serverURL}/indexLogin.html'>link</a> e introduciendo su mail y su nueva contraseña.</p>`
-                  }, (error, info) => {
-                    if (error) {
-                      console.log('Error al enviar el correo electrónico:', error);
-                    } else {
-                      console.log('Correo electrónico enviado:', info.response);
-                    }
-                  });
+                  emailMessage(username, 'Contraseña Actualizada', `<p>Hola, su contraseña ha sigo actualizada correctamente. Ahora puede ingresar a su cuenta siguiendo el siguiente <a href='${serverURL}/indexLogin.html'>link</a> e introduciendo su mail y su nueva contraseña.</p>`);
                   res.redirect('/indexNuevaContraseñaExitosa.html');
                 }
               }

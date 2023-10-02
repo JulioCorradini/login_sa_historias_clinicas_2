@@ -1,5 +1,5 @@
 const express = require('express');
-const routes = require('./routes/routes'); // Iimporto las rutas
+const routes = require('./routes/routes'); // Importo las rutas
 const middleware = require('./middlewares/middleware'); // Importo los middlewares
 
 const app = express();

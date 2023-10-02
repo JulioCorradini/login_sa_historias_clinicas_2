@@ -1,4 +1,5 @@
 // cliente.js
+
 const mensajeDeError = document.getElementById("mensajeDeError");
 const textoDeError = document.getElementById("textoDeError");
 const container = document.getElementById("container");
@@ -8,9 +9,16 @@ const tituloDelMensaje = document.getElementById("tituloDelMensaje");
 const mensaje = document.getElementById("mensaje");
 const textoDelMensaje = document.getElementById("textoDelMensaje");
 
+const passwordRegex =  fetch('/regex') // Se realiza una petición GET a la ruta '/regex' para traer la expresión regular y gaurdarla en la variable passwordRegex.
+                      .then(response => response.json())
+                      .then(data => {
+                        regexString = data.regex;
+                      })
+                      .catch(error => {
+                        console.error('Error al obtener la expresión regular desde el servidor:', error);
+                      });
+
 function validarContraseña(password) {
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!()\-_{}[\]:;"'<>,.?/\\|]).{8,}$/;
-  //return password.match(passwordRegex) !== null;
   if(!password.match(passwordRegex)){
     textoDeError.innerText = "El campo no puede quedar en blanco. La contraseña debe tener al menos 8 caracteres, al menos una minúscula, al menos una mayúscula, al menos un dígito y al menos un caracter especial.";
     mensajeDeError.appendChild(textoDeError);

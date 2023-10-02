@@ -12,4 +12,21 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-module.exports = transporter;
+function emailMessage(username, subject, html ){
+  transporter.sendMail({
+    from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
+    to: username,
+    subject: subject,
+    html: html,
+  }, (error, info) => {
+    if (error) {
+      console.log('Error al enviar el correo electrónico:', error);
+    } else {
+      console.log('Correo electrónico enviado:', info.response);
+    }
+  })
+}
+
+module.exports = {
+  emailMessage: emailMessage,
+};
