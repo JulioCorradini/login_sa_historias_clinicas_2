@@ -1,7 +1,5 @@
 1- Cambiar el archivo ".env" a gitignore para que quede secreto.
 2- Revisar lo de hashSync.
-3- Modularizar la parte de la base de datos.
-4- Modularizar la parte del nodeMailer.
-5- Modularizar la parte del temporizador.
-6- Modularizar la parte de la validación de la contraseña con la expresión regular.
-7- Ver si se pueden reducrir los archivos HTML.
+3- Modularizar la parte del temporizador. ////////////
+4- Modularizar la parte de la validación de la contraseña con la expresión regular.
+5- Ver si se pueden reducrir los archivos HTML.

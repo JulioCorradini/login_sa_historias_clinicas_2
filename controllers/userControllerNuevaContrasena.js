@@ -1,37 +1,9 @@
 const bcrypt = require('bcrypt');
-const mysql = require('mysql2');
-const nodemailer = require('nodemailer');
+const db = require('../dataBase/db'); // Importa la instancia de conexión a la base de datos desde db.js
+const transporter = require('../nodeMailer/nodeMailer')// Importa la instancia de nodeMailer desde nodeMialer.js
 require('dotenv').config(); // Se traen las variables de entorno del archvio .env
 
-// Configuración de la base de datos MySQL
-const db = mysql.createConnection({
-    // Variables de entorno con las credenciales de una Base de Datos de prueba en mi localhost
-    host: process.env.DB_HOST_LOCAL,
-    user: process.env.DB_USER_LOCAL,
-    password: process.env.DB_PASS_LOCAL,
-    database: process.env.DB_NAME_LOCAL
-  
-  
-    // Estas son las varirables de entorno con las credenciales de una Base de Datos de prueba en el servidor de freesqldatabase.com
-    //App deployada para test en el servidor gratuito de render.com. Se accede mediante el link https://login-sa.onrender.com/
-    //La base de datos de freesqldatabase.com se puede visualizar accediendo al link https://www.phpmyadmin.co con las correspondientes credenciales.
-    /*host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME*/
-  });
-
-
-//Variables de entrorno con las credenciales para enviar el mail con "nodemailer".
-const EMAIL_USER = process.env.EMAIL_USER;
-const EMAIL_PASS = process.env.EMAIL_PASS;
-const transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: EMAIL_USER,
-    pass: EMAIL_PASS,
-  },
-});
+const EMAIL_USER = process.env.EMAIL_USER; // Variable para guardar el usuario de nodeMailer
 
 module.exports = {
     nuevaContrasena: (req, res) => {
