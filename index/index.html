@@ -5,22 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <title>Inicio de sesión</title>
+  <title>Registro</title>
 </head>
 <body>
   <div class="container" id="container">
-    <h1>Inicio de Sesión</h1>
-    <form action="/login" method="POST">
-      <input type="email" name="username" placeholder="Mail" required>
+    <h1>Regístrese</h1>
+    <form id="miFormulario" action="/register" method="POST">
+      <input id="username" type="email" name="username" placeholder="Mail" required>
       <div class="password-container">
         <input id="password" type="password" name="password" placeholder="Contraseña" required>
         <span id="toggle-password" class="password-toggle">
           <i class="fa fa-eye-slash" aria-hidden="true"></i>
         </span>
       </div>
-      <button type="submit">Iniciar Sesión</button>
+      <button id="button" type="submit" onclick="validarContraseña(password.value)">Registrarse</button>
     </form>
   </div>
-  <script src="/cliente.js"></script>
+  <div class="containerOculto" id="containerOculto" style="display: none;">
+    <h1 id="error">¡ERROR EN LA CONTRASEÑA!</h1>
+    <div id="mensajeDeError">
+      <h3 id="textoDeError"></h3>
+    </div>
+    <button id="intenteloDenuevo" onclick="recargar()">Inténtelo Denuevo</button>
+  </div>
+  <script src="../cliente.js"></script>
 </body>
 </html>

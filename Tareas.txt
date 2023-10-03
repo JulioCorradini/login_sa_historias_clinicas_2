@@ -1,3 +1,3 @@
 1- Cambiar el archivo ".env" a gitignore para que quede secreto.
 2- Revisar lo del hashSync.
-3- Ver si se pueden reducrir los archivos HTML.
+3- Revisar el problema de cuando se introducen simultáneamente un código de seguridad erroneo y una contraseña erronea en la página de recuperación de cuenta. Queda cargando la página.

@@ -40,7 +40,7 @@ function reenviar(ruta){
 }
 
 function recargarToken() {
-  window.location.href = '/indexConfirmacion.html';
+  window.location.href = '/index/indexConfirmacion.html';
 }
 
 function mostrarMensaje(paramTitulo, paramMensaje) {

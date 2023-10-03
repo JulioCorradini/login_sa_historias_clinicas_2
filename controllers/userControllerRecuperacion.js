@@ -2,8 +2,6 @@ const db = require('../dataBase/db'); // Importa la instancia de conexión a la 
 const { emailMessage } = require('../nodeMailer/nodeMailer')// Importa la instancia de nodeMailer desde nodeMialer.js
 require('dotenv').config(); // Se traen las variables de entorno del archvio .env
 
-const EMAIL_USER = process.env.EMAIL_USER; // Variable para guardar el usuario de nodeMailer
-
 module.exports = {
     recuperacion: (req, res) => {
         const { username } = req.body;
@@ -16,7 +14,7 @@ module.exports = {
           if (err) {
             res.redirect('/');
           } if(result) {
-            emailMessage(username, 'Recuperación de contraseña', `<p>Hola, para recuperar su cuenta debe crear una nueva contraseña. Siga el siguiente <a href='${serverURL}/indexNuevaContraseña.html'>link</a>, introduzca el siguiente código de seguridad ${token}, y siga las instrucciones.</p>`)
+            emailMessage(username, 'Recuperación de contraseña', `<p>Hola, para recuperar su cuenta debe crear una nueva contraseña. Siga el siguiente <a href='${serverURL}/index/indexNuevaContraseña.html'>link</a>, introduzca el siguiente código de seguridad ${token}, y siga las instrucciones.</p>`)
           }
         }
       );

@@ -10,14 +10,14 @@ module.exports = {
           [username],
           async (err, result) => {
             if (err || result.length === 0) {
-              res.redirect('/indexLoginError.html');
+              res.redirect('/index/indexLoginError.html');
             } else {
               const isPasswordValid = await bcrypt.compare(password, result[0].password);
               if (isPasswordValid) {
                 req.session.user = result[0];
                 res.redirect('/dashboard'); // Aquí la acción tiene que ser la de seguir el link que redirige al portal con las historias clínicas.
               } else {
-                res.redirect('/indexLoginError.html');
+                res.redirect('/index/indexLoginError.html');
               }
             }
           }

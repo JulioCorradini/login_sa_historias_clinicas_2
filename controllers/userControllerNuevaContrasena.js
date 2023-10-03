@@ -27,14 +27,14 @@ module.exports = {
                 if (err) {
                   res.redirect('/');
                 } if (result) {
-                  emailMessage(username, 'Contraseña Actualizada', `<p>Hola, su contraseña ha sigo actualizada correctamente. Ahora puede ingresar a su cuenta siguiendo el siguiente <a href='${serverURL}/indexLogin.html'>link</a> e introduciendo su mail y su nueva contraseña.</p>`);
-                  res.redirect('/indexNuevaContraseñaExitosa.html');
+                  emailMessage(username, 'Contraseña Actualizada', `<p>Hola, su contraseña ha sigo actualizada correctamente. Ahora puede ingresar a su cuenta siguiendo el siguiente <a href='${serverURL}/index/indexLogin.html'>link</a> e introduciendo su mail y su nueva contraseña.</p>`);
+                  res.redirect('/index/indexNuevaContraseñaExitosa.html');
                 }
               }
             )
           } else {
             // Si el token ingresado es incorrecto o si la contraseña ingresada no cumple con los requisitos.
-            res.redirect('/indexErrorNuevaContraseña.html');
+            res.redirect('/index/indexErrorNuevaContraseña.html');
           }
         }
       );
