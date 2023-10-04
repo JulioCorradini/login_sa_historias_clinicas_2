@@ -33,7 +33,7 @@ module.exports = {
               }
             )
           } else {
-            // Si el token ingresado es incorrecto o si la contraseña ingresada no cumple con los requisitos.
+            // Si el token ingresado es incorrecto.
             res.redirect('/index/indexErrorNuevaContraseña.html');
           }
         }
