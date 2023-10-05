@@ -1,3 +1,2 @@
 1- Cambiar el archivo ".env" a gitignore para que quede secreto.
 2- Revisar lo del hashSync.
-3- Revisar el problema de que se ven los dos mensajes de error cuando se pone mal el código de seguridad en la página de recuperación de la contraseña.

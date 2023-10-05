@@ -9,19 +9,7 @@ const tituloDelMensaje = document.getElementById("tituloDelMensaje");
 const mensaje = document.getElementById("mensaje");
 const textoDelMensaje = document.getElementById("textoDelMensaje");
 
-var passwordRegex; // Variable que se inicializa vacía y que luego gurdará la respuesta con la expresión regular.
-
-document.addEventListener("DOMContentLoaded", function() {
-  fetch('/regex') // Se realiza una petición GET a la ruta '/regex' para traer la expresión regular y gaurdarla en la variable passwordRegex.
-  .then(response => response.json())
-  .then(data => {
-    regexString = data.regex;
-    passwordRegex = regexString;
-  })
-  .catch(error => {
-    console.error('Error al obtener la expresión regular desde el servidor:', error);
-  });
-});
+passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!()\-_{}[\]:;"'<>,.?/\\|]).{8,}$/;
 
 function validarContraseña(password) {
   if(!password.match(passwordRegex)){
