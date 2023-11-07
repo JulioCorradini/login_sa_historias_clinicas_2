@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 
 function emailMessage(username, subject, html ){
   transporter.sendMail({
-    from: EMAIL_USER,// Aquí va el correo oficial del sanatorio
+    from: EMAIL_USER,
     to: username,
     subject: subject,
     html: html,

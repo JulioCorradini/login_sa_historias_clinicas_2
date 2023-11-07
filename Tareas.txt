@@ -1,2 +1,0 @@
-1- Cambiar el archivo ".env" a gitignore para que quede secreto.
-2- Revisar lo del hashSync.
